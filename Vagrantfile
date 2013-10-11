@@ -9,11 +9,12 @@ Vagrant.configure("2") do |config|
   #config.vm.network :forwarded_port, guest: 80, host: 80
   config.vm.network :public_network
 
-  config.vm.synced_folder "salt/roots/", "/srv/salt"
+  config.vm.synced_folder "salt/roots/", "/srv/"
 
   config.vm.provision :salt do |salt|
     salt.minion_config = "salt/minion"
     salt.run_highstate = true
+    salt.verbose = true
   end
 
   config.vm.provider :virtualbox do |vb|
