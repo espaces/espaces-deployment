@@ -22,18 +22,23 @@ Production
 States
 ======
 
-* Web server
+* Web server (Nginx)
+
   * Install
   * Configuration
   * Firewall
   * Services running
-* Filesystem mounting (production only)
-* Plone installation
-  * Git clone to system
+
+* Filesystem mounting (NeCTAR production only)
+
+* Platform installation (Plone)
+
+  * Git clone repository to system
   * Bootstrap environment
   * Configure buildout for specific environment ``-c production.cfg``
   * Run Buildout
-  * Put supervisord as system service
+  * Install supervisord as system service
+  * Ensure service starts on boot
   * Start supervisord (thus Plone)
 
 Todo
