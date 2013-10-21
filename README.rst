@@ -6,7 +6,7 @@ Development
 
 .. code:: bash
 
-    vagrant plugin install salty-vagrant
+    vagrant plugin install vagrant-salt
     vagrant up
 
 Production
