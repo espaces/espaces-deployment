@@ -107,14 +107,12 @@ eSpaces supervisord:
 
 # Firewall configuration
 eSpaces iptables:
-   iptables.append:
+   module.run:
+      - name: iptables.insert
       - table: filter
       - chain: INPUT
-      - jump: ACCEPT
-      - match: state
-      - connstate: NEW
-      - dport: 8080
-      - proto: tcp
+      - position: 3
+      - rule: -p tcp --dport 80 -j ACCEPT
 
 # To refactor into own file
 supervisor:
