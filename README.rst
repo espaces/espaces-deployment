@@ -6,6 +6,7 @@ Development
 
 .. code:: bash
 
+    git clone --recursive https://github.com/espaces/espaces-deployment.git
     vagrant plugin install vagrant-salt
     vagrant up
 
@@ -16,6 +17,7 @@ Production
 
     ssh production.example.org
     wget -O - http://bootstrap.saltstack.org | sudo sh
+    git clone --recursive https://github.com/espaces/espaces-deployment.git
     ln ...
     salt-call --local state.highstate
 
