@@ -7,6 +7,7 @@ Development
 .. code:: bash
 
     git clone --recursive https://github.com/espaces/espaces-deployment.git
+    vagrant plugin install vagrant-vbguest
     vagrant plugin install vagrant-salt
     vagrant up
 
