@@ -2,6 +2,8 @@ include:
    - jcu.development_tools
    - jcu.python
    - jcu.repositories.eresearch
+   - jcu.supervisord
+   - jcu.nginx
 
 Plone requirements:
    pkg.installed:
@@ -37,8 +39,6 @@ Plone requirements:
       {% endif %}
          - sls: jcu.python.python_2_7
 
-{% set plone_path = '/opt/espaces-platform' %}
-
 # Create a specific user to run the service
 Plone user:
    user.present:
@@ -50,34 +50,35 @@ Plone user:
 # Create directory in /opt with correct user and clone from VCS
 eSpaces configuration:
    file.directory:
-      - name: {{ plone_path }} 
+      - name: {{ pillar['paths']['plone'] }} 
       - user: plone
       - group: plone
       - dir_mode: 755
    git.latest:
       - name: https://github.com/espaces/espaces-platform.git
-      - target: {{ plone_path }}
+      - target: {{ pillar['paths']['plone'] }}
       - user: plone
       - require:
          - user: Plone user
          - file: eSpaces configuration 
          - pkg: Plone requirements
+      - onlyif: echo ''
 
 # Bootstrap the Buildout environment
 eSpaces bootstrap:
    cmd.wait:
-      - cwd: {{ plone_path }}
+      - cwd: {{ pillar['paths']['plone'] }}
       - name: python2.7 bootstrap.py
       - user: plone
       - group: plone
-      - unless: test -x {{ plone_path }}/bin/buildout
+      - unless: test -x {{ pillar['paths']['plone'] }}/bin/buildout
       - watch:
          - git: eSpaces configuration 
 
 # Run buildout 
 eSpaces buildout:
    cmd.wait:
-      - cwd: {{ plone_path }}
+      - cwd: {{ pillar['paths']['plone'] }}
       - name: ./bin/buildout
       - user: plone
       - group: plone
@@ -90,9 +91,9 @@ eSpaces buildout:
 eSpaces service:
    file.symlink:
       - name: /etc/supervisord.d/espaces.ini
-      - target: {{ plone_path }}/parts/supervisor/supervisord.conf
+      - target: {{ pillar['paths']['plone'] }}/parts/supervisor/supervisord.conf
       - require:
-         - pkg: supervisor
+         - host: mail.espaces.edu.au
       - watch:
          - cmd: eSpaces buildout
       - watch_in:
@@ -102,27 +103,22 @@ eSpaces service:
 eSpaces supervisord:
    supervisord.running:
       - name: instance1
+      - update: true
       - watch:
          - service: supervisord
 
-# Firewall configuration
-eSpaces iptables:
-   module.run:
-      - name: iptables.insert
-      - table: filter
-      - chain: INPUT
-      - position: 3
-      - rule: -p tcp --dport 80 -j ACCEPT
+#Other supporting settings
+mail.espaces.edu.au:
+   host.present:
+      - ip: {{ pillar['hosts']['mail'] }}
 
-# To refactor into own file
-supervisor:
-  pkg.installed:
-     - require:
-        - pkgrepo: JCU package repository 
-
-supervisord:
-  service:
-     - running
-     - enable: True
-     - require:
-        - pkg: supervisor
+# Configure web front end
+espaces web configuration:
+   file.managed:
+       - name: /etc/nginx/conf.d/espaces.conf
+       - source: salt://espaces/nginx.conf
+       - user: root
+       - group: root
+       - mode: 644
+       - watch_in:
+           - service: nginx

@@ -1,4 +1,5 @@
 base:
    '*':
-      - espaces.webserver
+      - jcu.nginx
+      - jcu.shibboleth
       - espaces.plone
