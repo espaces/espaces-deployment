@@ -1,5 +1,5 @@
 master: localhost
-id: espaces
+id: espaces-dev
 file_client: local
 ##### Primary configuration settings #####
 ##########################################
