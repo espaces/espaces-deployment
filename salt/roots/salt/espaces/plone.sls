@@ -3,7 +3,8 @@ include:
    - jcu.python
    - jcu.repositories.eresearch
    - jcu.supervisord
-   - jcu.nginx
+   - jcu.shibboleth.fastcgi
+   - jcu.nginx.custom
 
 Plone requirements:
    pkg.installed:
@@ -120,5 +121,31 @@ espaces web configuration:
        - user: root
        - group: root
        - mode: 644
+       - watch_in:
+           - service: nginx
+
+espaces ssl certificate:
+   file.managed:
+       - name: /etc/nginx/ssl/star.espaces.edu.au.chained.crt
+       - makedirs: true
+       - user: root
+       - group: root
+       - mode: 400
+       - contents_pillar: 'nginx:certificate'
+       - require: 
+            - pkg: nginx
+       - watch_in:
+           - service: nginx
+
+espaces ssl key:
+   file.managed:
+       - name: /etc/nginx/ssl/star.espaces.edu.au.key
+       - makedirs: true
+       - user: root
+       - group: root
+       - mode: 400
+       - contents_pillar: 'nginx:key'
+       - require: 
+            - pkg: nginx
        - watch_in:
            - service: nginx
