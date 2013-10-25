@@ -1,6 +1,9 @@
 master: localhost
-id: espaces-dev
+id: espaces
 file_client: local
+grains:
+  roles:
+    - development 
 ##### Primary configuration settings #####
 ##########################################
 

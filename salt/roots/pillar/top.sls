@@ -1,8 +1,9 @@
 base:
    '*':
       - base
-      {% if grains['id'].endswith('dev') %}
+      {% if 'development' in grains['roles'] %}
       - development
-      {% else %}
+      {% endif %}
+      {% if 'production' in grains['roles'] %}
       - production
       {% endif %}

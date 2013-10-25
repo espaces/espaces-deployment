@@ -1,9 +1,18 @@
-{% import 'shibboleth-sp-cert.pem' as cert %}
-{% import 'shibboleth-sp-key.pem' as key %}
 shibboleth:
    host: sp.espaces.edu.au 
-   entityid: https://sp.espaces.edu.au/shibboleth
+   entityID: https://sp.espaces.edu.au/shibboleth
+   REMOTE_USER: auEduPersonSharedToken eppn persistent-id targeted-id
+   supportContact: noreply@espaces.edu.au
+   paths:
+      '/':
+        requireSession: 'true'
+paths:
+    plone: /opt/espaces-platform
+
+{% import 'star.espaces.edu.au.chained.crt' as ssl_cert %}
+{% import 'star.espaces.edu.au.key' as ssl_key %}
+nginx:
    certificate: |-
-      {{ cert|string|indent(6) }}
+      {{ ssl_cert|string|indent(6) }}
    key: |-
-      {{ key|string|indent(6) }} 
+      {{ ssl_key|string|indent(6) }} 
