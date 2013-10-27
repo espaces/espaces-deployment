@@ -1,3 +1,4 @@
 *.swp
 .vagrant
 .DS_Store
+salt/roots/pillar/private
