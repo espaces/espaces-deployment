@@ -9,8 +9,8 @@ shibboleth:
 paths:
     plone: /opt/espaces-platform
 
-{% import 'star.espaces.edu.au.chained.crt' as ssl_cert %}
-{% import 'star.espaces.edu.au.key' as ssl_key %}
+{% import 'private/star.espaces.edu.au.chained.crt' as ssl_cert %}
+{% import 'private/star.espaces.edu.au.key' as ssl_key %}
 nginx:
    certificate: |-
       {{ ssl_cert|string|indent(6) }}
