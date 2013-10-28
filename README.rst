@@ -32,7 +32,11 @@ States
   * Firewall
   * Services running
 
-* Filesystem mounting (NeCTAR production only)
+* Filesystem mounting (for NeCTAR production only)
+ 
+  * Check presence of volume device
+  * Create partition table, main partition, and format
+  * Mount and configure to mount on boot
 
 * Platform installation (Plone)
 
@@ -47,7 +51,8 @@ States
 Todo
 ====
 
+* How to easily switch from development to production (Pillar?)
+* Using salt-ssh with a non-Salt bootstrapped host - possible?
 * Install instructions
 * Vagrant file for development
 * Salt host configuration
-* SSL certificate and storage somewhere that can be pulled in via Salt
