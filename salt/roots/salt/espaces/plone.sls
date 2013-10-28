@@ -78,7 +78,7 @@ eSpaces bootstrap:
 
 # Run buildout 
 eSpaces buildout:
-   cmd.wait:
+   cmd.run:
       - cwd: {{ pillar['paths']['plone'] }}
       - name: ./bin/buildout
       - user: plone
