@@ -126,7 +126,7 @@ espaces web configuration:
 
 espaces ssl certificate:
    file.managed:
-       - name: /etc/nginx/ssl/star.espaces.edu.au.chained.crt
+       - name: /etc/nginx/ssl/star.espaces.edu.au.crt
        - makedirs: true
        - user: root
        - group: root
