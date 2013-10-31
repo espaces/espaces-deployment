@@ -31,7 +31,10 @@ Enrolment in AAF
 
 This deployment utilises the Australian Access Federation for authentication
 with Shibboleth.  To enrol your application, see 
-https://manager.aaf.edu.au/federationregistry/.
+https://manager.aaf.edu.au/federationregistry/.  Once you have enrolled,
+then configure the Pillar data accordingly with hostname, entity ID and
+the like such that Shibboleth is configured correctly on running the
+highstate.
 
 Since eSpaces uses Plone/Zope under the hood, authentication is
 flexible and AAF isn't specifically necessary and can be changed out as
