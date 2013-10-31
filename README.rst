@@ -1,8 +1,11 @@
 Installation
 ============
 
+Preconfiguration
+----------------
+
 Initial SSL configuration
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To run this configuration with preconfigured SSL certificates, you must at
 least provide a relevant SSL certificate for use with the web server.  For
@@ -22,6 +25,18 @@ it, create a private pillar area with relevant files inside
 
 The ``webserver-ssl.crt`` file should be a complete, chained SSL file suitable
 for consumption by Nginx.
+
+Enrolment in AAF
+^^^^^^^^^^^^^^^^
+
+This deployment utilises the Australian Access Federation for authentication
+with Shibboleth.  To enrol your application, see 
+https://manager.aaf.edu.au/federationregistry/.
+
+Since eSpaces uses Plone/Zope under the hood, authentication is
+flexible and AAF isn't specifically necessary and can be changed out as
+required. On a separate note, the default install also allows login
+via a local username and password for non-AAF users.
 
 Development
 -----------
@@ -99,5 +114,3 @@ Todo
 
 * How to easily switch from development to production (Pillar?)
 * Using salt-ssh with a non-Salt bootstrapped host - possible?
-* Install instructions
-* Salt host configuration
