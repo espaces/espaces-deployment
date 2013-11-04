@@ -47,17 +47,35 @@ Development
 .. code:: bash
 
     git clone --recursive https://github.com/espaces/espaces-deployment.git
-    vagrant plugin install vagrant-vbguest
-    vagrant plugin install vagrant-salt
-    vagrant up
+    vagrant up development
 
 The above provisioning will generate self-signed certificates for SSL web
-services and for Shibboleth. You can override this behaviour by placing
+services and for Shibboleth. You can override this behaviour by placing certificate
+configuration within the relevant pillar area.
 
 Production
 ----------
 
+Requires various environment variables to be present.  More information coming shortly.
+
 .. code:: bash
+
+    vagrant plugin install vagrant-openstack-plugin
+    vagrant plugin install vagrant-salt
+    # Configure your .env here
+    source .env
+    vagrant up production --provider=openstack
+
+
+Old instructions
+----------------
+
+.. code :: bash
+
+    vagrant plugin install vagrant-vbguest
+    vagrant plugin install vagrant-salt
+
+.. code :: bash
 
     ssh production.example.org
     wget -O - http://bootstrap.saltstack.org | sudo sh

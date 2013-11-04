@@ -1,0 +1,6 @@
+master: localhost
+id: espaces
+file_client: local
+grains:
+  roles:
+    - development 
