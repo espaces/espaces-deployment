@@ -104,8 +104,11 @@ eSpaces service:
 eSpaces supervisord:
    supervisord.running:
       - name: instance1
+      - restart: true
       - update: true
       - watch:
+         - file: eSpaces service
+         - cmd: eSpaces buildout
          - service: supervisord
 
 #Other supporting settings
