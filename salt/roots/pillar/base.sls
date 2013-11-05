@@ -47,6 +47,10 @@ shibboleth:
          paths:
             '/':
                requireSession: 'false'
+      www.espaces.edu.au:
+         paths:
+            '/':
+               requireSession: 'false'
    {% if is_production %}
    {% import 'private/shibboleth-sp-cert.pem' as shibboleth_cert %}
    {% import 'private/shibboleth-sp-key.pem' as shibboleth_key %}
