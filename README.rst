@@ -1,5 +1,12 @@
+Todo
+====
+
+* Custom VM snapshot/instance for cleanly basing this off. (Duplicate existing?)
+* Problem deleting volume storage again - contact QCIF/Qcloud.
+
 Installation
 ============
+
 
 Preconfiguration
 ----------------
@@ -56,15 +63,30 @@ configuration within the relevant pillar area.
 Production
 ----------
 
-Requires various environment variables to be present.  More information coming shortly.
-
 .. code:: bash
 
     vagrant plugin install vagrant-openstack-plugin
-    vagrant plugin install vagrant-salt
-    # Configure your .env here
-    source .env
-    vagrant up production --provider=openstack
+    source .env; vagrant up production --provider=openstack
+
+This will deploy onto NeCTAR (QCloud) infrastructure via OpenStack provisioning.
+This requires various environment variables to be present, as follows:
+
+.. code:: bash
+
+export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v2.0/
+export OS_TENANT_ID=1234567890abcdef0123456789
+export OS_TENANT_NAME="QCIF_eSpaces"
+export OS_USERNAME=user@example.org
+
+export OS_PASSWORD='secret'
+export OS_KEYPAIR_NAME='keypair-dev'
+
+You can utilise the *OpenStack RC File* download to set the first set of options
+for you.  The latter set of options are specific to this configuration. 
+
+For convenience, you might place all of the above into a ``.env`` file and
+``source .env`` prior to use.  You could even go further and use something like
+`Autoenv <https://github.com/kennethreitz/autoenv>`_ to automate this process.
 
 
 Old instructions
