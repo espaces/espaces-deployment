@@ -8,10 +8,57 @@ configured VM will have Plone (with eSpaces customisations), Nginx
 (configured appropriately) all set up and wired together.  The only
 manual steps necessary are the items mentioned under `Preconfiguration`_.
 
+Features
+========
+
+Key features
+------------
+
+* Vagrantfile and integration with built-in Salt provisioner for development
+* Vagrantfile integration with OpenStack provisioning for NeCTAR production
+  deployment.
+* Easily deploy a development machine via VirtualBox and a production
+  machine to NeCTAR/OpenStack using the same configuration to produce
+  the same results.
+
+States
+------
+
+* Web server (Nginx)
+
+  * Install
+  * Configuration
+  * SSL installation
+  * Firewall rules
+  * Services running
+
+* Filesystem mounting (optional; for NeCTAR production only)
+ 
+  * Check presence of volume device
+  * Create partition table, main partition, and format
+  * Mount and configure to mount on boot
+
+* Shibboleth and AAF configuration
+
+  * Install services
+  * Configuration of Shibboleth for AAF (metadata, URLs, etc)
+  * Configuration of FastCGI applications
+  * Configuration of Nginx to talk to Shibboleth FastCGI
+  * Services running 
+
+* Platform installation (Plone)
+
+  * Git clone repository to system
+  * Bootstrap environment
+  * Configure buildout for specific environment ``-c production.cfg``
+  * Run Buildout
+  * Install supervisord as system service
+  * Start supervisord (thus Plone)
+  * Ensure service starts on boot
+  
 
 Installation
 ============
-
 
 Preconfiguration
 ----------------
@@ -78,13 +125,13 @@ This requires various environment variables to be present, as follows:
 
 .. code:: bash
 
-export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v2.0/
-export OS_TENANT_ID=1234567890abcdef0123456789
-export OS_TENANT_NAME="QCIF_eSpaces"
-export OS_USERNAME=user@example.org
-
-export OS_PASSWORD='secret'
-export OS_KEYPAIR_NAME='keypair-dev'
+    export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v2.0/
+    export OS_TENANT_ID=1234567890abcdef0123456789
+    export OS_TENANT_NAME="QCIF_eSpaces"
+    export OS_USERNAME=user@example.org
+    
+    export OS_PASSWORD='secret'
+    export OS_KEYPAIR_NAME='keypair-dev'
 
 You can utilise the *OpenStack RC File* download to set the first set of options
 for you.  The latter set of options are specific to this configuration. 
@@ -92,73 +139,3 @@ for you.  The latter set of options are specific to this configuration.
 For convenience, you might place all of the above into a ``.env`` file and
 ``source .env`` prior to use.  You could even go further and use something like
 `Autoenv <https://github.com/kennethreitz/autoenv>`_ to automate this process.
-
-
-Old instructions
-----------------
-
-.. code :: bash
-
-    vagrant plugin install vagrant-vbguest
-    vagrant plugin install vagrant-salt
-
-.. code :: bash
-
-    ssh production.example.org
-    wget -O - http://bootstrap.saltstack.org | sudo sh
-    git clone --recursive https://github.com/espaces/espaces-deployment.git
-    rm -rf /etc/salt/minion
-    ln -s salt/minion /etc/salt/minion
-    ln -s salt/roots/pillar /srv/pillar
-    ln -s salt/roots/salt /srv/salt
-
-    #Introduce your private files into /srv/pillar/private here
-
-    salt-call --local state.highstate
-
-Features
-========
-
-Inclusions
-----------
-
-* Vagrantfile and integration with salty-vagrant for development
-
-States
-------
-
-* Web server (Nginx)
-
-  * Install
-  * Configuration
-  * Firewall
-  * Services running
-
-* Filesystem mounting (for NeCTAR production only)
- 
-  * Check presence of volume device
-  * Create partition table, main partition, and format
-  * Mount and configure to mount on boot
-
-* Shibboleth and AAF configuration
-
-  * Install
-  * Configuration of Shibboleth for AAF
-  * Configuration of FastCGI applications
-  * Services running 
-
-* Platform installation (Plone)
-
-  * Git clone repository to system
-  * Bootstrap environment
-  * Configure buildout for specific environment ``-c production.cfg``
-  * Run Buildout
-  * Install supervisord as system service
-  * Ensure service starts on boot
-  * Start supervisord (thus Plone)
-
-Todo
-====
-
-* How to easily switch from development to production (Pillar?)
-* Using salt-ssh with a non-Salt bootstrapped host - possible?
