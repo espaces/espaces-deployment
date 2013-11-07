@@ -2,7 +2,7 @@ Todo
 ====
 
 * Custom VM snapshot/instance for cleanly basing this off. (Duplicate existing?)
-* Problem deleting volume storage again - contact QCIF/Qcloud.
+
 
 Installation
 ============
