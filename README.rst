@@ -1,7 +1,12 @@
-Todo
-====
+About
+=====
 
-* Custom VM snapshot/instance for cleanly basing this off. (Duplicate existing?)
+This Vagrant/Salt set of configuration allows the deployment of fully
+functional eSpaces (like https://espaces.edu.au) stack.  The resulting
+configured VM will have Plone (with eSpaces customisations), Nginx
+(with Shibboleth customisations and SSL configured), and Shibboleth 
+(configured appropriately) all set up and wired together.  The only
+manual steps necessary are the items mentioned under `Preconfiguration`_.
 
 
 Installation
