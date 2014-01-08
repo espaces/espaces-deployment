@@ -21,8 +21,8 @@ Vagrant.configure("2") do |config|
 
       development.vm.synced_folder "salt/roots/", "/srv/"
       development.vm.provider :virtualbox do |vb|
+         vb.memory = 2048
          vb.customize ["modifyvm", :id, "--cpus", "4"]
-         vb.customize ["modifyvm", :id, "--memory", "2048"]
       end
 
   end

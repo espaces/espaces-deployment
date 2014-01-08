@@ -11,6 +11,11 @@ manual steps necessary are the items mentioned under `Preconfiguration`_.
 Features
 ========
 
+Requirements
+------------
+
+* Vagrant >= 1.4
+
 Key features
 ------------
 
