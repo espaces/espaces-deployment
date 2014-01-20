@@ -9,12 +9,14 @@ volumes:
     /dev/sdb:
         mount: /opt/ 
         fstype: ext4
+        opts: defaults,noatime,nodiratime,errors=remount-ro
         mkmnt: true
     {% endif %}
     {% if is_production %}
     /dev/vdc:
         mount: /opt/ 
         fstype: ext4
+        opts: defaults,noatime,nodiratime,errors=remount-ro
         mkmnt: true
     {% endif %}
 
