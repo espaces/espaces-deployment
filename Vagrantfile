@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
       development.vm.box     = "centos-64-x64-vbox4210"
       development.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
-      development.vm.network :forwarded_port, guest: 8080, host: 8081
+      development.vm.network :forwarded_port, guest: 8080, host: 9090
       development.vm.network :public_network
 
       development.vm.provision :salt do |salt|
@@ -39,6 +39,7 @@ Vagrant.configure("2") do |config|
 
       production.ssh.private_key_path = ["~/.ssh/#{ENV['OS_KEYPAIR_NAME']}.pem"]
 
+      #For OpenStack
       production.vm.provider :openstack do |openstack|
 
           openstack.endpoint = "#{ENV['OS_AUTH_URL']}/tokens"
@@ -54,6 +55,21 @@ Vagrant.configure("2") do |config|
 
           openstack.security_groups = ['default', 'Web']
           openstack.availability_zone = "qld"
+      end
+
+      #For Amazon Web Services
+      production.vm.provider :aws do |aws, override|
+
+          aws.access_key_id = "#{ENV['AWS_ACCESS_KEY_ID']}"
+          aws.secret_access_key = "#{ENV['AWS_SECRET_ACCESS_KEY']}"
+          aws.keypair_name = "#{ENV['AWS_KEYPAIR_NAME']}"
+
+          aws.instance_type = /m1.medium/
+          aws.ami = "#{ENV['AWS_AMI']}"
+          override.ssh.username = "ec2-user"
+
+          aws.security_groups = ['default', 'Web']
+          aws.region = "#{ENV['AWS_REGION']}"
       end
 
       production.vm.synced_folder "salt/roots/", "/srv/"

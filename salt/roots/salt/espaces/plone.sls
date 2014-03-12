@@ -117,6 +117,15 @@ mail.espaces.edu.au:
       - ip: {{ pillar['hosts']['mail'] }}
 
 # Configure web front end
+espaces maintenance resources:
+    file.recurse:
+      - name: /usr/share/nginx/html/maintenance
+      - source: salt://espaces/maintenance
+      - user: nginx
+      - group: nginx
+      - require:
+         - file: nginx maintenance resources 
+
 espaces web configuration:
    file.managed:
        - name: /etc/nginx/conf.d/espaces.conf

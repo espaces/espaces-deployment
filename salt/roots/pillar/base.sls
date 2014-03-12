@@ -38,6 +38,8 @@ nginx:
       {{ ssl_cert|string|indent(6) }}
    key: |-
       {{ ssl_key|string|indent(6) }} 
+   service-name: eSpaces
+   contact-email: eresearch@jcu.edu.au
 
 shibboleth:
    host: sp.espaces.edu.au 
