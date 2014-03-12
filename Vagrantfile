@@ -1,5 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+#
+
+unless Vagrant.has_plugin?("vagrant-openstack-plugin")
+    raise 'You must install vagrant-openstack-plugin to continue.'
+end
 
 Vagrant.configure("2") do |config|
 
@@ -14,8 +19,9 @@ Vagrant.configure("2") do |config|
         salt.minion_config = "salt/minion_develop"
         salt.run_highstate = true
         salt.verbose = true
-        salt.install_type = "stable"
-        salt.always_install = true
+        salt.install_type = "git"
+        salt.install_args = "v0.17.5"
+        salt.always_install = true 
       end
 
       development.vm.synced_folder "salt/roots/", "/srv/"
@@ -31,7 +37,7 @@ Vagrant.configure("2") do |config|
       production.vm.box = "dummy"
       production.vm.box_url = "https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box"
 
-      production.ssh.private_key_path = "~/.ssh/#{ENV['OS_KEYPAIR_NAME']}.pem"
+      production.ssh.private_key_path = ["~/.ssh/#{ENV['OS_KEYPAIR_NAME']}.pem"]
 
       production.vm.provider :openstack do |openstack|
 
@@ -55,8 +61,9 @@ Vagrant.configure("2") do |config|
         salt.minion_config = "salt/minion_production"
         salt.run_highstate = true
         salt.verbose = true
-        salt.install_type = "stable"
-        salt.always_install = true
+        salt.install_type = "git"
+        salt.install_args = "v0.17.5"
+        salt.always_install = true 
       end
 
   end
