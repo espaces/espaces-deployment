@@ -67,14 +67,12 @@ eSpaces configuration:
 
 # Bootstrap the Buildout environment
 eSpaces bootstrap:
-   cmd.wait:
+   cmd.run:
       - cwd: {{ pillar['paths']['plone'] }}
       - name: python2.7 bootstrap.py
       - user: plone
       - group: plone
       - unless: test -x {{ pillar['paths']['plone'] }}/bin/buildout
-      - watch:
-         - git: eSpaces configuration 
 
 # Run buildout 
 eSpaces buildout:
@@ -87,6 +85,7 @@ eSpaces buildout:
          - cmd: eSpaces bootstrap 
       - watch:
          - git: eSpaces configuration
+         - cmd: eSpaces bootstrap
 
 # Service installation for supervisord
 eSpaces service:
