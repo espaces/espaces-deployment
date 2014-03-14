@@ -1,10 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 #
+plugins = ["vagrant-openstack-plugin",
+           "vagrant-aws"]
 
-unless Vagrant.has_plugin?("vagrant-openstack-plugin")
-    raise 'You must install vagrant-openstack-plugin to continue.'
-end
+plugins.each { |plugin|
+  unless Vagrant.has_plugin?(plugin)
+    raise 'You must install ' + plugin + ' to continue.' \
+      + "\r\nTo do this, you can run: vagrant plugin install " + plugin
+  end
+}
+
 
 Vagrant.configure("2") do |config|
 
