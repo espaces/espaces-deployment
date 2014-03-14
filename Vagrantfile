@@ -14,6 +14,8 @@ plugins.each { |plugin|
 
 Vagrant.configure("2") do |config|
 
+  config.ssh.pty = true
+
   config.vm.define :development do |development|
 
       development.vm.box     = "centos-64-x64-vbox4210"
@@ -40,13 +42,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :production do |production|
 
-      production.vm.box = "dummy"
-      production.vm.box_url = "https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box"
-
-      production.ssh.private_key_path = ["~/.ssh/#{ENV['OS_KEYPAIR_NAME']}.pem"]
-
       #For OpenStack
-      production.vm.provider :openstack do |openstack|
+      production.vm.provider :openstack do |openstack, override|
+
+          override.vm.box = "dummy-openstack"
+          override.vm.box_url = "https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box"
+          override.ssh.private_key_path = ["~/.ssh/#{ENV['OS_KEYPAIR_NAME']}.pem"]
 
           openstack.endpoint = "#{ENV['OS_AUTH_URL']}/tokens"
           openstack.tenant = "#{ENV['OS_TENANT_NAME']}"
@@ -65,17 +66,34 @@ Vagrant.configure("2") do |config|
 
       #For Amazon Web Services
       production.vm.provider :aws do |aws, override|
+        
+          override.vm.box = "dummy-aws"
+          override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+          override.ssh.private_key_path = ["~/.ssh/#{ENV['AWS_KEYPAIR_NAME']}.pem"]
 
           aws.access_key_id = "#{ENV['AWS_ACCESS_KEY_ID']}"
           aws.secret_access_key = "#{ENV['AWS_SECRET_ACCESS_KEY']}"
           aws.keypair_name = "#{ENV['AWS_KEYPAIR_NAME']}"
 
-          aws.instance_type = /m1.medium/
+          aws.instance_type = "#{ENV['AWS_INSTANCE_TYPE']}"
           aws.ami = "#{ENV['AWS_AMI']}"
-          override.ssh.username = "ec2-user"
+          override.ssh.username = "#{ENV['AWS_SSH_USERNAME']}"
 
-          aws.security_groups = ['default', 'Web']
+          aws.security_groups = ['Web']
           aws.region = "#{ENV['AWS_REGION']}"
+
+          aws.tags = {
+            'Name' => 'espaces.edu.au'
+          }
+          aws.block_device_mapping = [
+            {
+              'DeviceName' => "/dev/sda",
+              'VirtualName' => "dummy",
+              'Ebs.VolumeSize' => 250,
+              'Ebs.DeleteOnTermination' => false,
+              'Ebs.VolumeType' => 'standard'
+            }
+          ]
       end
 
       production.vm.synced_folder "salt/roots/", "/srv/"
