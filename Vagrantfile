@@ -18,8 +18,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :development do |development|
 
-      development.vm.box     = "centos-64-x64-vbox4210"
-      development.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+      development.vm.box     = "centos-65-x64-vbox436"
+      development.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
       development.vm.network :forwarded_port, guest: 8080, host: 9090
       development.vm.network :public_network
 
