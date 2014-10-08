@@ -21,6 +21,7 @@ Vagrant.configure("2") do |config|
       development.vm.box     = "centos-65-x64-vbox436"
       development.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
       development.vm.network :forwarded_port, guest: 8080, host: 9090
+      development.vm.network :private_network, ip: "33.33.32.1"
 
       development.vm.provision :salt do |salt|
         salt.minion_config = "salt/minion_develop"
