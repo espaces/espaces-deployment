@@ -21,7 +21,6 @@ Vagrant.configure("2") do |config|
       development.vm.box     = "centos-65-x64-vbox436"
       development.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
       development.vm.network :forwarded_port, guest: 8080, host: 9090
-      development.vm.network :public_network
 
       development.vm.provision :salt do |salt|
         salt.minion_config = "salt/minion_develop"
@@ -29,7 +28,7 @@ Vagrant.configure("2") do |config|
         salt.verbose = true
         salt.install_type = "git"
         salt.install_args = "v0.17.5"
-        salt.always_install = true 
+        salt.always_install = true
       end
 
       development.vm.synced_folder "salt/roots/", "/srv/"
@@ -66,7 +65,7 @@ Vagrant.configure("2") do |config|
 
       #For Amazon Web Services
       production.vm.provider :aws do |aws, override|
-        
+
           override.vm.box = "dummy-aws"
           override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
           override.ssh.private_key_path = ["~/.ssh/#{ENV['AWS_KEYPAIR_NAME']}.pem"]
