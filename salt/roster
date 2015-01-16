@@ -1,0 +1,8 @@
+# Used salt-ssh for host configuration
+[hostid]:
+  host: [hostname]
+  port: 8822
+  user: root
+[hostid]-dev:
+  host: 25.1.1.X
+  user: root
