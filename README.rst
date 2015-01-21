@@ -1,21 +1,19 @@
 [hostname] configuration
 ========================
 
-Todo
-----
-
-* Remove ``roots`` symlink once the ``file_roots`` relativity
-  issue is fixed: https://github.com/saltstack/salt/issues/14613
-
 Features
 --------
 
-Installation
-------------
+* Add your features here.
 
-Provision like so::
+Provisioning targets
+--------------------
 
-   salt-ssh hostname state.highstate
+Provision your targets like so::
+
+   salt-ssh [hostname] state.highstate
+
+Identifiers for this command come from the Salt roster file (``salt/roster``).
 
 Requirements
 ------------
@@ -29,3 +27,9 @@ Requirements
 * If your host is Debian/Ubuntu, you must have ``certifi`` installed::
 
      sudo easy_install certifi
+
+Todo
+----
+
+* Remove ``roots`` symlink once the ``file_roots`` relativity
+  issue is fixed: https://github.com/saltstack/salt/issues/14613
