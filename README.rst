@@ -12,8 +12,26 @@ Provisioning targets
 Provision your targets like so::
 
    salt-ssh [hostname] state.highstate
+   salt-ssh [hostname]-dev state.highstate
 
 Identifiers for this command come from the Salt roster file (``salt/roster``).
+
+Alternatively, you can test locally using Vagrant to provision a local VM and
+provision that using Salt's masterless provisioning::
+
+   vagrant up
+
+Once the machine is running, re-provision via Vagrant with::
+
+   vagrant provision # on host machine
+
+or directly with Salt on the Vagrant VM by::
+
+   vagrant ssh
+   salt-call --local state.highstate
+
+By running Vagrant in this directory, the ``Vagrantfile`` is picked up
+automatically for all the above commands.
 
 Requirements
 ------------
