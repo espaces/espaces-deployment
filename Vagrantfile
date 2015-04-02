@@ -18,17 +18,16 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :development do |development|
 
-      development.vm.box     = "centos-65-x64-vbox436"
-      development.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box"
-      development.vm.network :forwarded_port, guest: 8080, host: 9090
-      development.vm.network :private_network, ip: "33.33.32.1"
+      development.vm.box     = "centos-65-x64-vbox"
+      development.vm.box_url = "https://www.hpc.jcu.edu.au/boxes/centos-65-x64-virtualbox-nocm.box"
+      development.vm.network :private_network, ip: "25.1.1.3"
 
       development.vm.provision :salt do |salt|
         salt.minion_config = "salt/minion_develop"
         salt.run_highstate = true
         salt.verbose = true
         salt.install_type = "git"
-        salt.install_args = "v0.17.5"
+        salt.install_args = "v2015.2.0rc1"
         salt.always_install = true
       end
 
@@ -57,7 +56,7 @@ Vagrant.configure("2") do |config|
 
           openstack.flavor = /m1.medium/
           # Public snapshot 'eSpaces_Base' (which is 'NeCTAR CentOS 6.4 x86_64' + rsync)
-          openstack.image = "0debdc10-1eeb-4239-8177-3e756c2758c9" 
+          openstack.image = "0debdc10-1eeb-4239-8177-3e756c2758c9"
           openstack.ssh_username = "ec2-user"
 
           openstack.security_groups = ['default', 'Web']
@@ -105,8 +104,8 @@ Vagrant.configure("2") do |config|
         salt.run_highstate = true
         salt.verbose = true
         salt.install_type = "git"
-        salt.install_args = "v0.17.5"
-        salt.always_install = true 
+        salt.install_args = "v2015.2.0rc1"
+        salt.always_install = false
       end
 
   end

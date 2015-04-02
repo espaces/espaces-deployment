@@ -3,7 +3,7 @@ id: espaces
 file_client: local
 grains:
   roles:
-    - production 
+    - production
 ##### Primary configuration settings #####
 ##########################################
 
