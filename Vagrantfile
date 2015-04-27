@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
 
   config.ssh.pty = true
 
-  config.vm.define :development do |development|
+  config.vm.define "development", primary: true do |development|
 
       development.vm.box     = "centos-65-x64-vbox"
       development.vm.box_url = "https://www.hpc.jcu.edu.au/boxes/centos-65-x64-virtualbox-nocm.box"
@@ -33,8 +33,9 @@ Vagrant.configure("2") do |config|
 
       development.vm.synced_folder "salt/roots/", "/srv/"
       development.vm.provider :virtualbox do |vb|
-         vb.memory = 2048
-         vb.customize ["modifyvm", :id, "--cpus", "4"]
+          vb.name = "vagrant-espaces-development"
+          vb.memory = 2048
+          vb.customize ["modifyvm", :id, "--cpus", "4"]
       end
 
   end
