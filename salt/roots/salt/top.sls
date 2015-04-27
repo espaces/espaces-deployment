@@ -1,3 +1,3 @@
 base:
-   '*':
-      - espaces.plone
+  '*':
+    - espaces.plone
