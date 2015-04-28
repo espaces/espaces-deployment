@@ -63,7 +63,6 @@ eSpaces configuration:
          - user: Plone user
          - file: eSpaces configuration 
          - pkg: Plone requirements
-      - onlyif: echo ''
 
 # Bootstrap the Buildout environment
 eSpaces bootstrap:
@@ -82,7 +81,7 @@ eSpaces buildout:
       - user: plone
       - group: plone
       - require:
-         - cmd: eSpaces bootstrap 
+         - cmd: eSpaces bootstrap
       - watch:
          - git: eSpaces configuration
          - cmd: eSpaces bootstrap
@@ -116,14 +115,14 @@ mail.espaces.edu.au:
       - ip: {{ pillar['hosts']['mail'] }}
 
 # Configure web front end
-espaces maintenance resources:
+espaces error resources:
     file.recurse:
-      - name: /usr/share/nginx/html/maintenance
-      - source: salt://espaces/maintenance
+      - name: /usr/share/nginx/html/errors
+      - source: salt://espaces/errors
       - user: nginx
       - group: nginx
       - require:
-         - file: nginx maintenance resources 
+         - file: nginx error resources 
 
 espaces web configuration:
    file.managed:
