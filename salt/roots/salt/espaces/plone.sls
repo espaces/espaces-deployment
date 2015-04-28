@@ -68,14 +68,14 @@ eSpaces configuration:
 eSpaces bootstrap:
    cmd.run:
       - cwd: {{ pillar['paths']['plone'] }}
-      - name: python2.7 bootstrap.py
+      - name: python2.7 bootstrap-buildout.py
       - user: plone
       - group: plone
       - unless: test -x {{ pillar['paths']['plone'] }}/bin/buildout
 
 # Run buildout 
 eSpaces buildout:
-   cmd.run:
+   cmd.wait:
       - cwd: {{ pillar['paths']['plone'] }}
       - name: ./bin/buildout
       - user: plone
