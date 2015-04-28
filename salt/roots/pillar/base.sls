@@ -55,7 +55,14 @@ shibboleth:
          paths:
             '/':
                requireSession: 'false'
-   {% if is_production %}
+   {% if is_development %}
+   providers:
+     - aaf-test
+     - tuakiri-test
+   {% else %}
+   providers:
+     - aaf
+     - tuakiri
    {% import 'private/shibboleth-sp-cert.pem' as shibboleth_cert %}
    {% import 'private/shibboleth-sp-key.pem' as shibboleth_key %}
    certificate: |-
