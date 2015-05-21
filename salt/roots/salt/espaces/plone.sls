@@ -77,7 +77,7 @@ eSpaces bootstrap:
 eSpaces buildout:
    cmd.wait:
       - cwd: {{ pillar['paths']['plone'] }}
-      - name: ./bin/buildout
+      - name: ./bin/buildout -c production.cfg
       - user: plone
       - group: plone
       - require:
