@@ -60,7 +60,6 @@ States
   * Install supervisord as system service
   * Start supervisord (thus Plone)
   * Ensure service starts on boot
-  
 
 Installation
 ============
@@ -144,3 +143,16 @@ for you.  The latter set of options are specific to this configuration.
 For convenience, you might place all of the above into a ``.env`` file and
 ``source .env`` prior to use.  You could even go further and use something like
 `Autoenv <https://github.com/kennethreitz/autoenv>`_ to automate this process.
+
+Gotchas
+-------
+
+Because of the way the provisioning works, the Buildout process for
+configuring or installing Plone will only run if the underlying git repository
+for the eSpaces configuration changes.  If it does not change, Salt will not
+re-run Buildout.  This might affect you if you have the latest git version
+cloned already but still want Buildout to run.  In this case, re-run buildout
+manually as the ``plone`` user::
+
+    cd /opt/espaces-platform
+    ./bin/buildout -c production.cfg

@@ -72,6 +72,8 @@ eSpaces bootstrap:
       - user: plone
       - group: plone
       - unless: test -x {{ pillar['paths']['plone'] }}/bin/buildout
+      - require:
+        - git: eSpaces configuration
 
 # Run buildout 
 eSpaces buildout:
