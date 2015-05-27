@@ -99,7 +99,7 @@ Vagrant.configure("2") do |config|
           ]
       end
 
-      production.vm.synced_folder "salt/roots/", "/srv/"
+      production.vm.synced_folder "salt/roots/", "/srv/", type: "rsync"
       production.vm.provision :salt do |salt|
         salt.minion_config = "salt/minion_production"
         salt.run_highstate = true
