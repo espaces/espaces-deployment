@@ -1,5 +1,4 @@
-{% set is_production = 'production' in grains['roles'] %}
-{% set is_development = 'development' in grains['roles'] %}
+{% set is_development = 'development' in grains.get('roles', ()) %}
 
 paths:
     plone: /opt/espaces-platform
@@ -12,7 +11,7 @@ volumes:
         opts: defaults,noatime,nodiratime,errors=remount-ro
         mkmnt: true
     {% endif %}
-    {% if is_production %}
+    {% if not is_development %}
     /dev/vdc:
         mount: /opt/ 
         fstype: ext4
@@ -24,9 +23,7 @@ hosts:
     {% if is_development %}
     #hostrelay.jcu.edu.au
     mail: '137.219.16.198'
-    {% endif %}
-
-    {% if is_production %}
+    {% else %}
     #smtp.uq.edu.au
     mail: '130.102.132.85'
     {% endif %}

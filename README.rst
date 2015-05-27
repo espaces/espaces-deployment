@@ -1,5 +1,5 @@
-About
-=====
+eSpaces configuration
+=====================
 
 This Vagrant/Salt set of configuration allows the deployment of fully
 functional eSpaces (like https://espaces.edu.au) stack.  The resulting
@@ -9,15 +9,7 @@ configured VM will have Plone (with eSpaces customisations), Nginx
 manual steps necessary are the items mentioned under `Preconfiguration`_.
 
 Features
-========
-
-Requirements
-------------
-
-* Vagrant >= 1.4
-
-Key features
-------------
+--------
 
 * Vagrantfile and integration with built-in Salt provisioner for development
 * Vagrantfile integration with OpenStack provisioning for NeCTAR production
@@ -27,7 +19,7 @@ Key features
   the same results.
 
 States
-------
+~~~~~~
 
 * Web server (Nginx)
 
@@ -61,14 +53,62 @@ States
   * Start supervisord (thus Plone)
   * Ensure service starts on boot
 
-Installation
-============
+Provisioning targets
+--------------------
 
-Preconfiguration
-----------------
+See `Installation`_ first before proceeding.
 
-Initial SSL configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Provision your targets like so::
+
+   git clone --recursive https://github.com/espaces/espaces-deployment.git
+   salt-ssh espaces state.highstate
+   salt-ssh espaces-dev state.highstate
+
+Identifiers for this command come from the Salt roster file (``salt/roster``).
+
+Alternatively, you can test locally using Vagrant to provision a local VM and
+provision that using Salt's masterless provisioning::
+
+   vagrant up
+
+The above provisioning will generate self-signed certificates for SSL web
+services and for Shibboleth. You can override this behaviour by placing certificate
+configuration within the relevant pillar area.
+
+Once the development machine is running, re-provision via Vagrant with::
+
+   vagrant provision # on host machine
+
+or directly with Salt on the Vagrant VM by::
+
+   vagrant ssh
+   salt-call --local state.highstate
+
+By running Vagrant in this directory, the ``Vagrantfile`` is picked up
+automatically for all the above commands.
+
+Requirements
+------------
+
+* Vagrant 1.4+ and Salt 2015.5+
+* Your *master* (the computer running Salt) must have root-level SSH access to
+  the given host via key-based authentication.
+* If your host is Debian/Ubuntu, you must have ``certifi`` installed::
+
+     sudo easy_install certifi
+
+Todo
+----
+
+* Remove ``roots`` symlink once the ``file_roots`` relativity
+  issue is fixed: https://github.com/saltstack/salt/issues/14613
+
+
+Installation preconfiguration
+-----------------------------
+
+SSL configuration
+~~~~~~~~~~~~~~~~~
 
 To run this configuration with preconfigured SSL certificates, you must at
 least provide a relevant SSL certificate for use with the web server.  For
@@ -89,70 +129,19 @@ it, create a private pillar area with relevant files inside
 The ``webserver-ssl.crt`` file should be a complete, chained SSL file suitable
 for consumption by Nginx.
 
-Enrolment in AAF
-^^^^^^^^^^^^^^^^
+Enrolment in Shibboleth federations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This deployment utilises the Australian Access Federation for authentication
-with Shibboleth.  To enrol your application, see 
-https://manager.aaf.edu.au/federationregistry/.  Once you have enrolled,
-then configure the Pillar data accordingly with hostname, entity ID and
-the like such that Shibboleth is configured correctly on running the
-highstate.
+This deployment utilises Shibboleth federations for authentication with
+research institutions.  eSpaces currently works with the Australian Access
+Federation (AAF) and Tuakiri New Zealand Access Federation.  To enrol your
+application, see https://manager.aaf.edu.au/federationregistry/ and
+https://registry.tuakiri.ac.nz/.  Once you have enrolled, then configure the
+Pillar data accordingly with hostname, entity ID and the like such that
+Shibboleth is configured correctly on running the highstate.
 
-Since eSpaces uses Plone/Zope under the hood, authentication is
-flexible and AAF isn't specifically necessary and can be changed out as
-required. On a separate note, the default install also allows login
-via a local username and password for non-AAF users.
+Since eSpaces uses Plone/Zope under the hood, authentication is flexible and
+federated login isn't specifically necessary and can be changed out as
+required. Similarly, the default install also allows login via a
+local username and password for non-federated users.
 
-Development
------------
-
-.. code:: bash
-
-    git clone --recursive https://github.com/espaces/espaces-deployment.git
-    vagrant up development
-
-The above provisioning will generate self-signed certificates for SSL web
-services and for Shibboleth. You can override this behaviour by placing certificate
-configuration within the relevant pillar area.
-
-Production
-----------
-
-.. code:: bash
-
-    vagrant plugin install vagrant-openstack-plugin
-    source .env; vagrant up production --provider=openstack
-
-This will deploy onto NeCTAR (QCloud) infrastructure via OpenStack provisioning.
-This requires various environment variables to be present, as follows:
-
-.. code:: bash
-
-    export OS_AUTH_URL=https://keystone.rc.nectar.org.au:5000/v2.0/
-    export OS_TENANT_ID=1234567890abcdef0123456789
-    export OS_TENANT_NAME="QCIF_eSpaces"
-    export OS_USERNAME=user@example.org
-    
-    export OS_PASSWORD='secret'
-    export OS_KEYPAIR_NAME='keypair-dev'
-
-You can utilise the *OpenStack RC File* download to set the first set of options
-for you.  The latter set of options are specific to this configuration. 
-
-For convenience, you might place all of the above into a ``.env`` file and
-``source .env`` prior to use.  You could even go further and use something like
-`Autoenv <https://github.com/kennethreitz/autoenv>`_ to automate this process.
-
-Gotchas
--------
-
-Because of the way the provisioning works, the Buildout process for
-configuring or installing Plone will only run if the underlying git repository
-for the eSpaces configuration changes.  If it does not change, Salt will not
-re-run Buildout.  This might affect you if you have the latest git version
-cloned already but still want Buildout to run.  In this case, re-run buildout
-manually as the ``plone`` user::
-
-    cd /opt/espaces-platform
-    ./bin/buildout -c production.cfg
