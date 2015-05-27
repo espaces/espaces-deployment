@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
         salt.run_highstate = true
         salt.verbose = true
         salt.install_type = "git"
-        salt.install_args = "v2015.2.0rc2"
+        salt.install_args = "v2015.5.1"
         salt.always_install = true
       end
 
@@ -105,7 +105,7 @@ Vagrant.configure("2") do |config|
         salt.run_highstate = true
         salt.verbose = true
         salt.install_type = "git"
-        salt.install_args = "v2015.2.0rc2"
+        salt.install_args = "v2015.5.1"
         salt.always_install = true
       end
 
