@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
         salt.verbose = true
         salt.colorize = true
         salt.install_type = "git"
-        salt.install_args = "2015.5.1"
+        salt.install_args = "v2015.5.1"
         salt.always_install = true
     end
 
