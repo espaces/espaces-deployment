@@ -4,3 +4,5 @@ salt-ssh:
   wipe_ssh: true
 salt-call:
   config_dir: ./salt
+extra_filerefs:
+  - salt://jcu/shibboleth/providers.yaml
