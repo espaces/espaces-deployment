@@ -2,7 +2,7 @@ salt-ssh:
   config_dir: ./salt
   log_level: info
   wipe_ssh: true
+  extra_filerefs:
+    - salt://jcu/shibboleth/providers.yaml
 salt-call:
   config_dir: ./salt
-extra_filerefs:
-  - salt://jcu/shibboleth/providers.yaml
