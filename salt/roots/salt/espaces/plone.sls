@@ -157,7 +157,7 @@ espaces ssl key:
     - group: root
     - mode: 400
     - contents_pillar: 'nginx:key'
-    - require: 
+    - require:
       - pkg: nginx
     - watch_in:
       - service: nginx

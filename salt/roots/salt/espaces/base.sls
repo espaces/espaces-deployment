@@ -1,4 +1,4 @@
 Base packages:
   pkg.installed:
-    pkgs:
+    - pkgs:
       - vim-enhanced
