@@ -1,4 +1,5 @@
 include:
+  - jcu
   - jcu.development_tools
   - jcu.python
   - jcu.repositories.eresearch
