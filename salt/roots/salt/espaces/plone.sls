@@ -56,14 +56,14 @@ eSpaces configuration:
     - user: plone
     - group: plone
     - dir_mode: 755
-    git.latest:
-      - name: https://github.com/espaces/espaces-platform.git
-      - target: {{ pillar['paths']['plone'] }}
-      - user: plone
-      - require:
-        - user: Plone user
-        - file: eSpaces configuration 
-        - pkg: Plone requirements
+  git.latest:
+    - name: https://github.com/espaces/espaces-platform.git
+    - target: {{ pillar['paths']['plone'] }}
+    - user: plone
+    - require:
+      - user: Plone user
+      - file: eSpaces configuration 
+      - pkg: Plone requirements
 
 # Bootstrap the Buildout environment
 eSpaces bootstrap:
