@@ -125,7 +125,7 @@ espaces error resources:
     - user: nginx
     - group: nginx
     - require:
-      - file: nginx error resources 
+      - file: nginx error resources
 
 espaces web configuration:
   file.managed:
