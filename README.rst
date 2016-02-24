@@ -61,8 +61,8 @@ See `Installation`_ first before proceeding.
 Provision your targets like so::
 
    git clone --recursive https://github.com/espaces/espaces-deployment.git
-   salt-ssh espaces state.highstate
-   salt-ssh espaces-dev state.highstate
+   salt-ssh espaces state.apply
+   salt-ssh espaces-dev state.apply
 
 Identifiers for this command come from the Salt roster file (``salt/roster``).
 
@@ -82,7 +82,7 @@ Once the development machine is running, re-provision via Vagrant with::
 or directly with Salt on the Vagrant VM by::
 
    vagrant ssh
-   salt-call --local state.highstate
+   salt-call --local state.apply
 
 By running Vagrant in this directory, the ``Vagrantfile`` is picked up
 automatically for all the above commands.
@@ -138,7 +138,7 @@ Federation (AAF) and Tuakiri New Zealand Access Federation.  To enrol your
 application, see https://manager.aaf.edu.au/federationregistry/ and
 https://registry.tuakiri.ac.nz/.  Once you have enrolled, then configure the
 Pillar data accordingly with hostname, entity ID and the like such that
-Shibboleth is configured correctly on running the highstate.
+Shibboleth is configured correctly on applying the highstate.
 
 Since eSpaces uses Plone/Zope under the hood, authentication is flexible and
 federated login isn't specifically necessary and can be changed out as
