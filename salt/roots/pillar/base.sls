@@ -37,6 +37,8 @@ nginx:
       {{ ssl_key|string|indent(6) }} 
    service-name: eSpaces
    contact-email: eresearch@jcu.edu.au
+   modules:
+     - modules/ngx_http_shibboleth_module.so
 
 shibboleth:
    host: sp.espaces.edu.au 
