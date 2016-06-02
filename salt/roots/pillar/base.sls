@@ -41,7 +41,7 @@ nginx:
      - modules/ngx_http_shibboleth_module.so
 
 shibboleth:
-   host: sp.espaces.edu.au 
+   host: sp.espaces.edu.au
    entityID: https://sp.espaces.edu.au/shibboleth
    discoveryURL: https://espaces.edu.au/login
    REMOTE_USER: auEduPersonSharedToken eppn persistent-id targeted-id
