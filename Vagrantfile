@@ -11,10 +11,8 @@ plugins.each { |plugin|
 
 Vagrant.configure("2") do |config|
 
-    config.vm.box = "centos-6.5-x86_64"
-    config.vm.box = "https://www.hpc.jcu.edu.au/boxes/centos-6.5-x86_64.box"
-    #config.vm.box     = "centos-7.0-x86_64"
-    #config.vm.box_url = "https://www.hpc.jcu.edu.au/boxes/centos-7.0-x86_64.box"
+    config.vm.box = "centos-6.7-x86_64-jcu"
+    config.vm.box = "https://www.hpc.jcu.edu.au/boxes/centos-6.7-x86_64-virtualbox.box"
     config.vm.network :private_network, ip: "25.1.1.3"
 
     config.vm.provision :salt do |salt|
@@ -23,16 +21,17 @@ Vagrant.configure("2") do |config|
         salt.verbose = true
         salt.colorize = true
         salt.install_type = "git"
-        salt.install_args = "v2015.5.1"
-        salt.bootstrap_options = "-G" # Use https:// over git://
-        salt.always_install = true
+        salt.install_args = "v2016.11.7"
+        salt.always_install = false
+        # Workarounds to get working on CentOS 6
+        salt.bootstrap_options = "-P -y -x python2.7"
     end
 
     config.vm.synced_folder "salt/roots/", "/srv/"
     config.vm.provider :virtualbox do |vb|
-        vb.name = "vagrant-espaces-development"
+        vb.name = "vagrant-espaces"
         vb.memory = 2048
-        vb.customize ["modifyvm", :id, "--cpus", "4"]
+        vb.cpus = 2
     end
 
 end

@@ -3,6 +3,7 @@ master: localhost
 id: espaces
 file_client: local
 grains:
+  insecure_encryption: true
   roles:
     - production
 file_roots:

@@ -6,27 +6,22 @@ paths:
 volumes:
     {% if is_development %}
     /dev/sdb:
-        mount: /opt/ 
+        mount: /opt/
         fstype: ext4
         opts: defaults,noatime,nodiratime,errors=remount-ro
         mkmnt: true
     {% endif %}
     {% if not is_development %}
     /dev/vdc:
-        mount: /opt/ 
+        mount: /opt/
         fstype: ext4
         opts: defaults,noatime,nodiratime,errors=remount-ro
         mkmnt: true
     {% endif %}
 
 hosts:
-    {% if is_development %}
     #hostrelay.jcu.edu.au
     mail: '137.219.16.198'
-    {% else %}
-    #smtp.uq.edu.au
-    mail: '130.102.132.85'
-    {% endif %}
 
 nginx:
    {% import 'private/webserver-ssl.crt' as ssl_cert %}
@@ -34,10 +29,11 @@ nginx:
    certificate: |-
       {{ ssl_cert|string|indent(6) }}
    key: |-
-      {{ ssl_key|string|indent(6) }} 
+      {{ ssl_key|string|indent(6) }}
    service-name: eSpaces
    contact-email: eresearch@jcu.edu.au
    modules:
+     - modules/ngx_http_headers_more_filter_module.so
      - modules/ngx_http_shibboleth_module.so
 
 shibboleth:
@@ -68,5 +64,5 @@ shibboleth:
    certificate: |-
       {{ shibboleth_cert|string|indent(6) }}
    key: |-
-      {{ shibboleth_key|string|indent(6) }} 
+      {{ shibboleth_key|string|indent(6) }}
    {% endif %}
