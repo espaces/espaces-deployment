@@ -1,5 +1,5 @@
 include:
-  - jcu.repositories.eresearch
+  - jcu.backups
 
 veeam backup scripts:
   file.recurse:
@@ -9,11 +9,3 @@ veeam backup scripts:
     - group: root
     - dir_mode: 755
     - file_mode: 755
-
-{% if grains['os_family'] == 'RedHat' %}
-veeam-release-el{{ grains['osmajorrelease'] }}:
-  pkg.installed:
-    - require:
-      - pkgrepo: jcu-eresearch
-      - file: veeam backup scripts
-{% endif %}
